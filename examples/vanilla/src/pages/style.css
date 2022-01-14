@@ -25,3 +25,13 @@ a[href] {
 .l {
 	font-size: 1rem;
 }
+
+.red {
+	padding: 0.25rem;
+	background-color: red;
+	cursor: pointer;
+}
+
+.blue {
+	background-color: blue;
+}

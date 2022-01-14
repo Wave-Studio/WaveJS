@@ -161,6 +161,19 @@ export default class WaveJS {
 		}
 	}
 
+	static css(props: { [key: string]: boolean }, json: WJSJsonCSS) {
+		let classes = "";
+
+		for (const key in json) {
+			const value = json[key];
+			if (key.toLowerCase() == "always" || props[key] == true) {
+				classes += ` ${value}`;
+			}
+		}
+
+		return classes.substring(1);
+	}
+
 	static h(
 		tagName:
 			| string
@@ -212,10 +225,18 @@ export default class WaveJS {
 							}
 						}
 
-						element.setAttribute(
-							attribute.toLowerCase() === "classname" ? "class" : attribute,
-							attributes[attribute] as string
-						);
+						if (["class", "classname"].includes(attribute.toLowerCase())) {
+							const prevclass = element.getAttribute("class") ?? "";
+
+							element.setAttribute(
+								"class",
+								prevclass +
+									`${prevclass == "" ? "" : " "}${attributes[attribute]}`
+							);
+							continue;
+						}
+
+						element.setAttribute(attribute, attributes[attribute] as string);
 					}
 				}
 			}

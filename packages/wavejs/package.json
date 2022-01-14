@@ -1,6 +1,6 @@
 {
   "name": "@wave-studios/wavejs",
-  "version": "1.0.9-bugfix",
+  "version": "1.0.10",
   "description": "Small yet powerful ReactJS alternative",
   "main": "src/index.ts",
   "scripts": {

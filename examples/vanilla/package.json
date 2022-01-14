@@ -8,10 +8,10 @@
 		"start": "yarn build && yarn serve"
 	},
 	"devDependencies": {
-		"typescript": "^4.5.2",
-		"vite": "^2.7.10"
+		"typescript": "^4.5.2"
 	},
 	"dependencies": {
-		"@wave-studios/wavejs": "^1.0.9-bugfix"
+		"@wave-studios/wavejs": "../../packages/wavejs",
+		"vite": "^2.7.12"
 	}
 }

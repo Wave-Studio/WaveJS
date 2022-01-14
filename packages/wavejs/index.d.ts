@@ -1,6 +1,6 @@
 // WaveJS - Hash Router
 declare namespace WJSRouters {
-	const HashRouter: WJSHashRouter 
+	const HashRouter: WJSHashRouter;
 }
 
 interface WJSHashRouterReturn {
@@ -63,8 +63,16 @@ declare namespace WJS {
 
 	function useState<T>(initialValue: T): [T, (value: T) => void];
 
-	/* Same as useState except that states are saved for the session */
+	/** Same as useState except that states are saved for the session */
 	function useSessionState<T>(initialValue: T): [() => T, (value: T) => void];
+
+	/** Generates css based on given props */
+	function css(
+		{}: {
+			[key: string]: boolean;
+		},
+		{}: WJSJsonCSS
+	): string;
 }
 
 declare namespace JSX {
@@ -83,10 +91,17 @@ declare namespace JSX {
 		children?: string | string[];
 	}
 	// Make Deno TS stop yelling
-	interface IntrinsicAttributes extends AttributeCollection, AttributeCollection {}
+	interface IntrinsicAttributes
+		extends AttributeCollection,
+			AttributeCollection {}
 	interface ElementAttributesProperty {
 		props: unknown;
 	}
+}
+
+declare interface WJSJsonCSS {
+	always?: string;
+	[key: string]: string;
 }
 
 declare interface WJSCssClasses {

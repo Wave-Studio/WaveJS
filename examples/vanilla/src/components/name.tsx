@@ -1,5 +1,5 @@
 export default function Name() {
-	const [name, setName] = WJS.useState("Hi");
+	const [name, setName] = WJS.useState("");
 	return (
 		<>
 			<h2>Input Example</h2>

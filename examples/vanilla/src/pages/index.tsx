@@ -3,7 +3,7 @@ import Counter from "../components/counter";
 import Name from "../components/name";
 import Router from "../components/router";
 
-export default function WJSApp(invalid: boolean = false) {
+export default function WJSApp(invalid = false) {
 	return (
 		<div
 			style={{
@@ -39,6 +39,23 @@ export default function WJSApp(invalid: boolean = false) {
 								<br />
 								<br />
 								Your code will automatically be reloaded.
+							</p>
+						</div>
+						<div
+							className={WJS.css(
+								{ diffcolor: Math.random() >= 0.5 },
+								{ always: "red", diffcolor: "blue" }
+							)}
+							onClick={() => {
+								location.reload();
+							}}
+						>
+							<p>
+								Blue = {">"} 0.5
+								<br />
+								Red = {"<"} 0.5
+								<br />
+								Click to reload
 							</p>
 						</div>
 						<hr />
