@@ -1,0 +1,18 @@
+{
+  "name": "@wave-studios/wavejs",
+  "version": "1.0.9-bugfix",
+  "description": "Small yet powerful ReactJS alternative",
+  "main": "src/index.ts",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wave-studio/WaveJS.git"
+  },
+  "author": "Wave-Studio",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/wave-studio/WaveJS/issues"
+  },
+  "homepage": "https://github.com/wave-studio/WaveJS"
+}

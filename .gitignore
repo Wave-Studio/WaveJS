@@ -1,0 +1,11 @@
+# Ignore site src
+dist
+dist-ssr
+
+# Ignore node_modules
+node_modules
+yarn.lock
+package-lock.json
+
+# Ignore settings
+/.vscode

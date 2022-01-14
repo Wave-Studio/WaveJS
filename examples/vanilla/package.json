@@ -1,0 +1,17 @@
+{
+	"name": "wavejs",
+	"version": "0.0.0",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"serve": "vite preview",
+		"start": "yarn build && yarn serve"
+	},
+	"devDependencies": {
+		"typescript": "^4.5.2",
+		"vite": "^2.7.10"
+	},
+	"dependencies": {
+		"@wave-studios/wavejs": "^1.0.9-bugfix"
+	}
+}
