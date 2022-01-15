@@ -9,3 +9,6 @@ package-lock.json
 
 # Ignore settings
 /.vscode
+
+# Ignore development source
+/new src

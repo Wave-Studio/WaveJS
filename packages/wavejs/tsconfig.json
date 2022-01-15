@@ -24,8 +24,10 @@
 		"baseUrl": ".",
 		"jsx": "react",
 		"jsxFactory": "WJS.h",
-		"jsxFragmentFactory": "WJS.f"
+		"jsxFragmentFactory": "WJS.f",
+		// May be enabled in the future
+		"emitDeclarationOnly": false,
 	},
 	"exclude": ["node_modules"],
-	"include": ["./src/**.**", "./src/**/**.**", "index.d.ts"]
+	"include": ["./src/**/*", "./new src/**/*", "*.d.ts"]
 }
