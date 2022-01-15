@@ -26,4 +26,4 @@ assignees: ''
 **System information**
  - Operating system:
  - Browser version:
- - Deno version:
+ - Node version:
