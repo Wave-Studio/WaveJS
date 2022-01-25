@@ -50,7 +50,7 @@ declare namespace JSX {
 		p: GlobalProps;
 		pre: GlobalProps;
 		ul: GlobalProps;
-		
+
 		// Inline text semantics
 		a: GlobalProps;
 		abbr: GlobalProps;
@@ -154,7 +154,7 @@ declare namespace JSX {
 	interface AttributeCollection {
 		[name: string]: unknown;
 		className?: string;
-		children?: string | string[];
+		children?: unknown[];
 	}
 	// Make Deno TS stop yelling
 	interface IntrinsicAttributes
