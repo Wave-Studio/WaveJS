@@ -1,7 +1,7 @@
 /**
  * WaveJS
  *
- * @author Wave-studios
+ * @author Wave-studio
  */
 
 export const namespaceEntries = [

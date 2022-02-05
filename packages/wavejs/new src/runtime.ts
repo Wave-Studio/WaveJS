@@ -1,139 +1,166 @@
 /**
  * WaveJS
  *
- * @author Wave-studios
+ * @author Wave-studio
  */
 
-import { namespaceEntries } from "./utils/svg";
+import { WJSComponent } from "./interfaces/runtime";
+import Renderer from "./render";
+import { htmlifyName } from "./utils/html";
 
-if (document.getElementById("wjs-app") == null) {
-	const div = document.createElement("div");
-	div.id = "wjs-app";
-	document.body.appendChild(div);
-}
+export default class WJS {
+	// Utility functions
+	private static rerenderCount = -1;
+	private static useTempStateIndex = -1;
+	private static useStateIndex = -1;
+	private static useTempStates: unknown[] = [];
+	static useStates: unknown[] = [];
 
-export class WJS {
-	// States
-	static states: unknown[] = [];
-	private static stateNum = -1;
-
-	static useState<T>(initialState: T): [T, (newState: T) => void] {
-		this.stateNum += 1;
-		const state = parseInt(new Number(this.stateNum).toString());
-
-		if (this.states[state] == undefined) {
-			this.states[state] = initialState;
-		}
+	static useState<T>(initialValue: T): [T, (value: T) => void] {
+		this.useStateIndex++;
+		const frozenNumber = parseInt(this.useStateIndex.toString());
+		this.useStates[frozenNumber] = this.useStates[frozenNumber] ?? initialValue;
 
 		return [
-			this.states[state] as T,
-			(newState: T) => {
-				this.states[state] = newState;
-				this.stateNum = -1;
+			this.useStates[frozenNumber] as T,
+			(newValue: T) => {
+				this.useStates[frozenNumber] = newValue;
+				Renderer.rerender();
 			},
 		];
 	}
 
-	// Other functions
-	public static renderAmount = 0;
+	/** Same as useState except that states get wiped when navigating to a different page */
+	static useTempState<T>(initialValue: T): [T, (value: T) => void] {
+		this.useTempStateIndex++;
+		const frozenNumber = parseInt(this.useTempStateIndex.toString());
+		this.useTempStates[frozenNumber] = this.useTempStates[frozenNumber] ?? initialValue;
 
-	static onMount(callback: () => void) {
-		this.renderAmount++;
-		if (this.renderAmount <= 1) {
-			callback();
+		return [
+			this.useTempStates[frozenNumber] as T,
+			(newValue: T) => {
+				this.useTempStates[frozenNumber] = newValue;
+				Renderer.rerender();
+			},
+		];
+	}
+
+	static onMount(func: () => void): void {
+		this.rerenderCount++;
+		if (this.rerenderCount < 1) {
+			func();
 		}
 	}
 
-	// Compiling JSX
-	static get f() {
-		return document.createDocumentFragment();
+	// Internal functions
+	static resetRerenderCount(reroute = false): void {
+		this.useStateIndex = -1;
+		this.useTempStateIndex = -1;
+
+		if (reroute) {
+			this.rerenderCount = -1;
+			this.useTempStates = [];
+		}
+	}
+
+	// Render functions
+	static f(): WJSComponent {
+		return {
+			nodeName: "wjs-fragment",
+			attributes: null,
+			children: [],
+			eventListeners: {},
+		};
 	}
 
 	static h(
-		tagName:
-			| string
-			| ((props: JSX.AttributeCollection) => unknown)
-			| DocumentFragment,
+		tagName: string | ((props: JSX.AttributeCollection) => WJSComponent),
 		attributes: JSX.AttributeCollection,
-		children: unknown[]
+		...children: (WJSComponent & string)[]
 	) {
-		if (
-			typeof tagName == "function" &&
-			!(tagName instanceof DocumentFragment)
-		) {
-			return tagName({ ...attributes, children });
-		} else {
-			const element =
-				tagName instanceof DocumentFragment
-					? tagName
-					: namespaceEntries.includes(tagName)
-					? document.createElementNS("http://www.w3.org/2000/svg", tagName)
-					: document.createElement(tagName);
+		let realChildren: (WJSComponent & string)[] = [];
 
-			if (!(element instanceof DocumentFragment)) {
-				let classValue = "";
-				for (const [key, value] of Object.entries(attributes) as [
-					string,
-					string | WJSCssClasses
-				][]) {
-					switch (key) {
-						case "children": {
+		for (const child of children) {
+			if (Array.isArray(child)) {
+				realChildren = [...realChildren, ...child];
+			} else {
+				realChildren.push(child);
+			}
+		}
+
+		children = realChildren;
+
+		if (typeof tagName == "function") {
+			return tagName({ ...attributes, children: children ?? [] });
+		} else {
+			if (tagName == "wjs-fragment") {
+				return children;
+			} else {
+				const elementAttributes: { [key: string]: string } = {};
+				const eventListeners: { [key: string]: (event: Event) => void } = {};
+
+				for (const [key, value] of Object.entries(attributes)) {
+					switch (key.toLowerCase()) {
+						case "class":
+						case "classname": {
+							elementAttributes["class"] = `${
+								elementAttributes["class"] ??
+								elementAttributes["className"] ??
+								""
+							} ${value}`;
+
 							break;
 						}
 
 						case "style": {
-							if (typeof value == "string") {
-								element.setAttribute(key, value);
+							const css = value as string | WJSCssClasses;
+
+							if (typeof css == "string") {
+								elementAttributes["style"] = css;
 							} else {
-								let stylesString = "";
-								for (const [style, val] of Object.entries(value)) {
-									let styleName = "";
-									for (const char of style.split("")) {
-										if (char.toLowerCase() != char) {
-											styleName += `-${char.toLowerCase()}`;
-										} else {
-											styleName += char;
-										}
-									}
-									stylesString += `${styleName}:${val}; `;
+								let generatedCss = "";
+
+								for (const [cssKey, cssValue] of Object.entries(css)) {
+									const htmlCssKey = htmlifyName(cssKey);
+									generatedCss += `${htmlCssKey}: ${cssValue};`;
 								}
-								element.setAttribute("style", stylesString.trim());
+
+								elementAttributes["style"] = generatedCss;
 							}
+
 							break;
 						}
 
-						case "class":
-						case "className": {
-							classValue += `${value} `;
-							element.setAttribute("class", classValue.trim());
+						case "children": {
 							break;
 						}
 
 						default: {
-							element.setAttribute(key, value as string);
+							if (key.startsWith("on")) {
+								const event = key.substring(2).toLowerCase();
+
+								if (typeof value == "function") {
+									eventListeners[event] = value as (event: Event) => void;
+								} else {
+									throw new Error(
+										`Event handler for ${event} must be a function`
+									);
+								}
+							} else {
+								elementAttributes[htmlifyName(key)] = value as string;
+							}
+
+							break;
 						}
 					}
 				}
-			}
 
-			const appendChild = (parent: Node, child: Node | string) => {
-				if (child == undefined) return;
-
-				if (Array.isArray(child)) {
-					for (const value of child) {
-						appendChild(parent, value);
-					}
-				} else if (typeof child === "string") {
-					parent.appendChild(document.createTextNode(child));
-				} else if (child instanceof Node) {
-					parent.appendChild(child);
-				} else if (typeof child !== "boolean") {
-					parent.appendChild(document.createTextNode(String(child)));
-				}
-			};
-
-			for (const child of children) {
-				appendChild(element, child as Node | string);
+				return {
+					nodeName: tagName,
+					attributes: elementAttributes ?? null,
+					children: children ?? [],
+					eventListeners: eventListeners ?? null,
+				};
 			}
 		}
 	}
