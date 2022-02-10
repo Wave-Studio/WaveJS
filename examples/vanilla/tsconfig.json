@@ -18,10 +18,5 @@
 		"jsxFragmentFactory": "WJS.f",
 		"experimentalDecorators": true
 	},
-	"include": [
-		"./src/pages/**.**",
-		"./src/components/**.**",
-		"./src/wavejs/**.**",
-		"./**.d.ts", "src/wavejs/routing/hash.tsx", "src/wavejs/router/hash.tsx",
-	]
+	"include": ["./**.d.ts", "./src/**.**", "./src/**/**.**"]
 }
