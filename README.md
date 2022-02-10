@@ -47,9 +47,16 @@ WJS.page({ title: "WaveJS Counter" }, Page);
 
 Using Wave.js is super easy!
 
-1. Clone this repository: `git clone https://github.com/wave-studios/wavejs.git`
-2. Install dependencies using your favorite package manager. We reccomend [yarn classic](https://classic.yarnpkg.com/lang/en/docs/install/)
-3. Run `npm run dev` or `yarn dev` and you're off to the races!
+### Manual install:
+1. Clone WaveJS using `git clone https://github.com/wave-studio/wavejs`
+1. Copy the example source code to your project directory
+1. Install dependencies (We suggest [Yarn classic](https://classic.yarnpkg.com/lang/en/docs/install/))
+1. Run `Yarn dev` or `npm run dev`
+
+### Automated installer:
+1. Run the script located [Here](https://github.com/Wave-Studio/WaveJS/blob/master/setup.sh)
+1. Install dependencies (We suggest [Yarn classic](https://classic.yarnpkg.com/lang/en/docs/install/))
+1. Run `Yarn dev` or `npm run dev`
 
 ## FAQ
 
