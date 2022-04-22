@@ -1,7 +1,6 @@
 {
-	"name": "wavejs-starter",
+	"name": "wavejs",
 	"version": "0.0.0",
-	"description": "Starter project for WaveJS",
 	"scripts": {
 		"dev": "vite",
 		"build": "vite build",
@@ -9,10 +8,14 @@
 		"start": "yarn build && yarn serve"
 	},
 	"devDependencies": {
+		"@types/dompurify": "^2.3.3",
+		"@types/marked": "^4.0.3",
 		"typescript": "^4.5.2"
 	},
 	"dependencies": {
 		"@wave-studios/wavejs": "*",
+		"dompurify": "^2.3.6",
+		"marked": "^4.0.14",
 		"vite": "^2.7.12"
 	}
 }

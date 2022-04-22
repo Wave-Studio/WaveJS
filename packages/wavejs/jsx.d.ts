@@ -150,6 +150,10 @@ declare namespace JSX {
 		// Web Components
 		slot: GlobalProps;
 		template: GlobalProps;
+
+		// WaveJS specific
+		/** Allows putting raw html in the src */
+		raw: GlobalProps;
 	}
 	interface AttributeCollection {
 		[name: string]: unknown;
@@ -163,6 +167,12 @@ declare namespace JSX {
 	interface ElementAttributesProperty {
 		props: unknown;
 	}
+}
+
+// WJS Elements
+interface RawProps {
+	/** Id of containing div */
+	id?: string;
 }
 
 // Individual elements

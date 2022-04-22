@@ -154,7 +154,10 @@ export default class WaveJS {
 		if (document.title != title) {
 			document.title = title;
 		}
-		if (!(result instanceof HTMLElement)) {
+		if (
+			!(result instanceof HTMLElement) &&
+			!(result instanceof DocumentFragment)
+		) {
 			document.getElementById("app")!.innerHTML = result as string;
 		} else {
 			document.getElementById("app")!.appendChild(result as Node);
@@ -251,7 +254,11 @@ export default class WaveJS {
 						appendChild(parent, value);
 					}
 				} else if (typeof child === "string") {
-					parent.appendChild(document.createTextNode(child));
+					if (tagName == "raw") {
+						(element as HTMLDivElement).innerHTML += child;
+					} else {
+						parent.appendChild(document.createTextNode(child));
+					}
 				} else if (child instanceof Node) {
 					parent.appendChild(child);
 				} else if (typeof child !== "boolean") {
@@ -272,6 +279,10 @@ export default class WaveJS {
 	}
 
 	private static convertNameToElement(tagName: string | DocumentFragment) {
+		if (tagName == "raw") {
+			return document.createElement("div");
+		}
+
 		if (tagName instanceof DocumentFragment) {
 			return tagName;
 		}
