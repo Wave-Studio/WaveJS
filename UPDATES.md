@@ -2,6 +2,10 @@
 
 Listed in most recent version
 
+## 1.0.11
+
+Added the `raw` element, which lets you use raw html in wavejs
+
 ## 1.0.10
 
 Added `WJS.css` which can return classes based on passed props.
