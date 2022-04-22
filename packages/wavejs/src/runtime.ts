@@ -154,8 +154,8 @@ export default class WaveJS {
 		if (document.title != title) {
 			document.title = title;
 		}
-		if (typeof result == "string") {
-			document.getElementById("app")!.innerHTML = result;
+		if (!(result instanceof HTMLElement)) {
+			document.getElementById("app")!.innerHTML = result as string;
 		} else {
 			document.getElementById("app")!.appendChild(result as Node);
 		}

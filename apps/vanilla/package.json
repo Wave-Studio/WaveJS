@@ -11,7 +11,7 @@
 		"typescript": "^4.5.2"
 	},
 	"dependencies": {
-		"@wave-studios/wavejs": "^1.0.10",
+		"@wave-studios/wavejs": "*",
 		"vite": "^2.7.12"
 	}
 }

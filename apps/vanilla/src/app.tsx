@@ -1,4 +1,4 @@
-import App from "./";
+import App from "./pages/index";
 
 WJSRouters.HashRouter.create(
 	{
