@@ -1,0 +1,1 @@
+deno run --allow-read --allow-write --allow-net --allow-env --no-check ./wave/compiler/index.ts
