@@ -1,1 +1,0 @@
-deno run --allow-net --allow-read --no-check ./wave/server/index.ts

@@ -9,9 +9,7 @@
 			"deno.window"
 		],
 		"types": [
-			"./wave/types/jsx.d.ts",
-			"./wave/types/wave.d.ts",
-			"./wave/types/config.d.ts"
+
 		]
 	}
 }
