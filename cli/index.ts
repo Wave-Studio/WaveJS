@@ -4,6 +4,7 @@ import {
 	gray,
 	dim,
 	bold,
+	red,
 } from "https://deno.land/std@0.152.0/fmt/colors.ts";
 
 import createProject from "./create.ts";
@@ -11,6 +12,19 @@ import createProject from "./create.ts";
 const prefix = `${cyan("Wave")}${brightBlue("JS")} ${gray("|")} `;
 
 const [action, ...args] = Deno.args.map((arg) => arg.toLowerCase());
+
+const isProject = async () => {
+	const projectURL = Deno.cwd();
+	const config = `${projectURL}/wavejs.config.ts`;
+
+	try {
+		await Deno.readTextFile(config);
+	} catch {
+		return false;
+	}
+
+	return true;
+};
 
 switch (action) {
 	case "create": {
@@ -27,19 +41,43 @@ switch (action) {
 		break;
 	}
 
-	case "new": {
-		break;
-	}
-
 	case "build": {
+		if (!(await isProject())) {
+			console.log(`${prefix}${red("You are not in a WaveJS project.")}`);
+		} else {
+			const compileWorker = new Worker(new URL("./workers/compile.ts", import.meta.url), {
+				type: "module",
+			});
+			compileWorker.postMessage({ watch: false });
+		}
 		break;
 	}
 
 	case "serve": {
+		if (!(await isProject())) {
+			console.log(`${prefix}${red("You are not in a WaveJS project.")}`);
+		} else {
+			const serverWorker = new Worker(new URL("./workers/server.ts", import.meta.url), {
+				type: "module",
+			});
+			serverWorker.postMessage({ watch: false });
+		}
 		break;
 	}
 
 	case "dev": {
+		if (!(await isProject())) {
+			console.log(`${prefix}${red("You are not in a WaveJS project.")}`);
+		} else {
+			const compileWorker = new Worker(new URL("./workers/compile.ts", import.meta.url), {
+				type: "module",
+			});
+			const serverWorker = new Worker(new URL("./workers/server.ts", import.meta.url), {
+				type: "module",
+			});
+			compileWorker.postMessage({ watch: true });
+			serverWorker.postMessage({ watch: true });
+		}
 		break;
 	}
 
@@ -50,7 +88,6 @@ switch (action) {
 				``,
 				brightBlue(`Project options: `),
 				cyan(` > ${bold("Create")} - Create a new project`),
-				cyan(` > ${bold("New")} - Create a new route in an existing project`),
 				cyan(` > ${bold("Build")} - Build the project`),
 				cyan(` > ${bold("Serve")} - Start the project's server`),
 				cyan(` > ${bold("Dev")} - Start the project's development server`),

@@ -25,7 +25,7 @@ export default async function createProject(name: string) {
 	const projectURL = `${localPath}/${name}`;
 
 	try {
-		await Deno.mkdir(projectURL);
+		await Deno.mkdir(projectURL, { recursive: true });
 	} catch {
 		console.log(
 			`${prefix}${red("Project already exists! Please choose another name.")}`
