@@ -1,44 +1,14 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# WaveJS output
-.wavejs
-
-# dependencies
-node_modules
-.pnp
-.pnp.js
-
-# testing
-coverage
-
-# next.js
-.next/
-out/
-build
-dist
-dist-ssr
-
-# misc
-.DS_Store
-*.pem
-
-# debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
+# Prevent me from going insane from "Wave is not defined" errors
+/.wave
+/imports.json
 
 # local env files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# turbo
-.turbo
+.env
+.env.*
 
 # Ignore settings
 /.vscode
 
 # Ignore development source
 /old
+/wave-project

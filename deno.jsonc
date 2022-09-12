@@ -9,7 +9,8 @@
 			"deno.window"
 		],
 		"types": [
-
+			"./cli/templates/.wave/internal/types/wave.d.ts",
+			"./cli/templates/.wave/internal/types/jsx.d.ts"
 		]
 	}
 }

@@ -1,5 +1,5 @@
-import { bundle } from "https://deno.land/x/emit@0.5.0/mod.ts";
-import scss from "https://deno.land/x/denosass@1.0.4/mod.ts";
+import { bundle } from "https://deno.land/x/emit@0.9.0/mod.ts";
+//import scss from "https://deno.land/x/denosass@1.0.4/mod.ts";
 
 interface Route {
 	page?: string;
@@ -7,17 +7,17 @@ interface Route {
 }
 
 interface Config {
-	siteName: string,
+	siteName: string;
 	minify: {
-		css: boolean,
-		js: boolean,
-		html: boolean,
-	}
+		css: boolean;
+		js: boolean;
+		html: boolean;
+	};
 }
 
 self.onmessage = async (e) => {
 	const path = Deno.cwd();
-	const config: Config = (await import(`${path}/wavejs.config.ts`)).default;
+	const config: Config = (await import(`${path}/wave.config.ts`)).default;
 	const { watch } = e.data;
 	console.log("Compiler", watch, path);
 
@@ -51,8 +51,6 @@ self.onmessage = async (e) => {
 
 	await walkRoute(`${path}/pages`);
 
-	console.log("Routes to compile", routesToCompile);
-
 	const mappedRoutes: Route[] = [];
 
 	for (const { path, type } of routesToCompile) {
@@ -83,33 +81,31 @@ self.onmessage = async (e) => {
 		}
 	}
 
-	console.log("Mapped routes", mappedRoutes);
-
 	const compileRoute = async (route: Route) => {
 		const page = route.page!;
 		const css = route.css;
 
-		// Currently bundle is broken in deno_emit from what I can tell
 		const { code } = await bundle(page, {
 			compilerOptions: {
 				jsx: "jsx",
 				jsxFactory: "WJS.h",
 				jsxFragmentFactory: "WJS.f",
 				inlineSourceMap: false,
-
-			}
-		})
+			},
+		});
 
 		console.log(code);
 
 		if (css != null) {
-			const compiledCss = scss(await Deno.readTextFile(css), {
-				quiet: true,
-				style: config.minify.css ? "compressed" : "expanded",
-			}).to_string().toString();
-			console.log(compiledCss);
+			// const compiledCss = scss(css, {
+			// 	quiet: true,
+			// 	style: config.minify.css ? "compressed" : "expanded",
+			// })
+			// 	.to_string()
+			// 	.toString();
+			// console.log(compiledCss);
 		}
-	}
+	};
 
 	for (const route of mappedRoutes) {
 		if (route.page != null) {

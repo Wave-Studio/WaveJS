@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "jsx": "react",
+        "jsxFactory": "WJS.h",
+        "jsxFragmentFactory": "WJS.f",
+        "lib": [
+            "DOM",
+            "ES2020",
+            "deno.window"
+        ],
+        "types": [
+            "./.wave/internal/types/wave.d.ts",
+            "./.wave/internal/types/jsx.d.ts"
+        ]
+    },
+    "importMap": "./imports.json"
+}

@@ -15,7 +15,7 @@ const [action, ...args] = Deno.args.map((arg) => arg.toLowerCase());
 
 const isProject = async () => {
 	const projectURL = Deno.cwd();
-	const config = `${projectURL}/wavejs.config.ts`;
+	const config = `${projectURL}/wave.config.ts`;
 
 	try {
 		await Deno.readTextFile(config);
@@ -31,8 +31,8 @@ switch (action) {
 		if (args.length == 0) {
 			const name =
 				prompt(
-					`${prefix}Enter the name for your project ${dim("[wavejs-project]")}:`
-				) ?? "wavejs-project";
+					`${prefix}Enter the name for your project ${dim("[wave-project]")}:`
+				) ?? "wave-project";
 			createProject(name.toLowerCase());
 		} else {
 			createProject(args[0].toLowerCase());
