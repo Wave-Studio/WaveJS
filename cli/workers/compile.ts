@@ -1,4 +1,5 @@
 import { bundle } from "https://deno.land/x/emit@0.9.0/mod.ts";
+import { load } from "https://deno.land/x/eszip@v0.28.0/loader.ts";
 //import scss from "https://deno.land/x/denosass@1.0.4/mod.ts";
 
 interface Route {
@@ -92,6 +93,7 @@ self.onmessage = async (e) => {
 				jsxFragmentFactory: "WJS.f",
 				inlineSourceMap: false,
 			},
+			load,
 		});
 
 		console.log(code);

@@ -27,6 +27,7 @@ export default async function createProject(name: string) {
 		"components",
 		"public",
 		".wave/internal",
+		".wave/internal/types",
 		".vscode",
 	]) {
 		await Deno.mkdir(`${projectURL}/${path}`, { recursive: true });
@@ -38,8 +39,8 @@ export default async function createProject(name: string) {
 
 		".wave/internal/shared.ts",
 		".wave/internal/wave.ts",
-		".wave/internal/wave.d.ts",
-		".wave/internal/jsx.d.ts",
+		".wave/internal/types/wave.d.ts",
+		".wave/internal/types/jsx.d.ts",
 
 		"imports.json",
 		"deno.jsonc",
@@ -52,7 +53,9 @@ export default async function createProject(name: string) {
 	]) {
 		await Deno.writeTextFile(
 			`${projectURL}/${path}`,
-			await Deno.readTextFile(`./templates/${path}`)
+			await Deno.readTextFile(
+				new URL(`./templates/${path}`, import.meta.url).href.substring("file://".length)
+			)
 		);
 	}
 
