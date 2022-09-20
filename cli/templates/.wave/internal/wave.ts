@@ -5,14 +5,30 @@ export const version = "0.0.1";
 // TODO: Add actual wave stuff
 
 export const useState = <T>(initialState: T): [T, (value: T) => void] => {
-	hookIndex(hookIndex() + 1);
-	if (hookData[hookIndex()] === undefined) {
-		hookData[hookIndex()] = initialState;
+	const index = hookIndex();
+
+	if (hookData[index] === undefined) {
+		hookData[index] = initialState;
 	}
+
 	return [
-		hookData[hookIndex()] as T,
+		hookData[index] as T,
 		(value: T) => {
-			hookData[hookIndex()] = value;
+			hookData[index] = value;
 		},
 	];
 };
+
+
+export const useEffect = (callback: () => void, dependencies: unknown[]) => {
+	const [useEffectDeps, setUseEffectDeps] = useState<null | unknown[]>(null);
+
+	if (useEffectDeps == null || dependencies != useEffectDeps) {
+		setUseEffectDeps(dependencies);
+		callback();
+	}
+}
+
+export const onMount = (callback: () => void) => {
+	useEffect(callback, []);
+}
