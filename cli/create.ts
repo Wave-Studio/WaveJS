@@ -38,6 +38,8 @@ export default async function createProject(name: string) {
 		".gitattributes",
 
 		".wave/internal/shared.ts",
+		".wave/internal/utils.ts",
+		".wave/internal/dom.ts",
 		".wave/internal/wave.ts",
 		".wave/internal/types/wave.d.ts",
 		".wave/internal/types/jsx.d.ts",

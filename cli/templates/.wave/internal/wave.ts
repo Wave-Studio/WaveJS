@@ -1,6 +1,7 @@
 import { hookData, hookIndex } from "./shared.ts";
 
 export const version = "0.0.1";
+export * from "./dom.ts";
 
 // TODO: Add actual wave stuff
 
